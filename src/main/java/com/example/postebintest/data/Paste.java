@@ -3,6 +3,7 @@ package com.example.postebintest.data;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.OffsetDateTime;
 
@@ -11,7 +12,9 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class Paste {
   @Id
-  @GeneratedValue(strategy = GenerationType.TABLE)
+  @GenericGenerator(name = "hash_generator",
+    strategy = "com.example.postebintest.service.generator.identifier.HashGenerator")
+  @GeneratedValue(generator = "hash_generator")
   @Column(name = "id")
   private String hashId;
 
