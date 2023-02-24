@@ -1,16 +1,22 @@
 package com.example.postebintest.dto;
 
 import com.example.postebintest.data.Access;
+import com.example.postebintest.data.ExpirationTime;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
 public class PasteDto {
   private String hashId;
+
+  @NotBlank
   private String separatedText;
-  private OffsetDateTime expirationEndDateTime;
+
+  @NotBlank
+  private ExpirationTime expirationTime;
+
+  @NotBlank
   private Access access;
 }
