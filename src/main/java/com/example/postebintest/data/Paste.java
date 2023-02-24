@@ -18,12 +18,12 @@ public class Paste {
   @Column(name = "id")
   private String hashId;
 
-  @Enumerated()
   @Column(name = "text")
   private String separatedText;
 
   @Column(name = "end_time")
   private OffsetDateTime expirationEndDateTime;
 
+  @Enumerated
   private Access access;
 }
