@@ -4,7 +4,6 @@ import com.example.postebintest.exception.TimeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.util.Locale;
 import java.util.Map;
 
 public enum ExpirationTime {
@@ -16,7 +15,7 @@ public enum ExpirationTime {
   ONE_MONTH,
   NO_LIMITS;
 
-  private static Map<Integer, ExpirationTime> namesMap = Map.of(
+  private static final Map<Integer, ExpirationTime> valuesMap = Map.of(
     10, TEN_MINUTES,
     60, ONE_HOUR,
     180, THREE_HOURS,
@@ -28,7 +27,7 @@ public enum ExpirationTime {
 
   @JsonCreator
   public static ExpirationTime forValue(Integer value) {
-    ExpirationTime expirationTime = namesMap.get(value);
+    ExpirationTime expirationTime = valuesMap.get(value);
     if (expirationTime != null) {
       return expirationTime;
     }
@@ -37,7 +36,7 @@ public enum ExpirationTime {
 
   @JsonValue
   public Integer toValue() {
-    for (Map.Entry<Integer, ExpirationTime> entry : namesMap.entrySet()) {
+    for (Map.Entry<Integer, ExpirationTime> entry : valuesMap.entrySet()) {
       if (entry.getValue() == this) {
         return entry.getKey();
       }
