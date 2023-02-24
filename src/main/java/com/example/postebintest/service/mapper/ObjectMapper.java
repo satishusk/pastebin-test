@@ -1,6 +1,6 @@
 package com.example.postebintest.service.mapper;
 
-public interface EntityMapper<DTO, E> {
-  E mapDto(DTO dto);
-  DTO mapEntity(E entity);
+public interface ObjectMapper<F, S> {
+  S mapForward(F firstType);
+  F mapBackward(S secondType);
 }
