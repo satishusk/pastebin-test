@@ -18,9 +18,10 @@ class TimeMapperTest {
   void mapForward_shouldExistType() {
     ExpirationTime oneMonth = ExpirationTime.ONE_MONTH;
 
+    OffsetDateTime now = OffsetDateTime.now();
     OffsetDateTime offsetDateTime = timeMapper.mapForward(oneMonth);
 
-    Duration duration = Duration.between(OffsetDateTime.now(), offsetDateTime);
+    Duration duration = Duration.between(now, offsetDateTime);
     assertEquals(oneMonth.toValue(), (int) duration.toMinutes());
   }
 
