@@ -1,25 +1,32 @@
-package com.example.postebintest.service.mapper;
+package com.example.postebintest.service.mapper.impl;
 
 import com.example.postebintest.data.Paste;
 import com.example.postebintest.dto.PasteDto;
+import com.example.postebintest.service.mapper.ObjectMapper;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
-public class PasteMapper implements EntityMapper<PasteDto, Paste> {
+@Component
+@AllArgsConstructor
+public class PasteMapper implements ObjectMapper<PasteDto, Paste> {
+  private final TimeMapper timeMapper;
+
   @Override
-  public Paste mapDto(PasteDto dto) {
+  public Paste mapForward(PasteDto pasteDto) {
     Paste paste = new Paste();
-    paste.setHashId(dto.getHashId());
-    paste.setAccess(dto.getAccess());
-    paste.setExpirationEndDateTime(dto.getExpirationEndDateExpirationTime());
-    paste.setSeparatedText(dto.getSeparatedText());
+    paste.setHashId(pasteDto.getHashId());
+    paste.setAccess(pasteDto.getAccess());
+    paste.setExpirationEndDateTime(timeMapper.mapForward(pasteDto.getExpirationTime()));
+    paste.setSeparatedText(pasteDto.getSeparatedText());
     return paste;
   }
 
   @Override
-  public PasteDto mapEntity(Paste paste) {
+  public PasteDto mapBackward(Paste paste) {
     PasteDto dto = new PasteDto();
     dto.setHashId(paste.getHashId());
     dto.setAccess(paste.getAccess());
-    dto.setExpirationEndDateExpirationTime(paste.getExpirationEndDateTime());
+    dto.setExpirationTime(timeMapper.mapBackward(paste.getExpirationEndDateTime()));
     dto.setSeparatedText(paste.getSeparatedText());
     return dto;
   }
