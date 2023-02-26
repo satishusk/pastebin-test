@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PasteDto {
+public class PasteRequestDto {
   private String hashId;
 
   @NotBlank
