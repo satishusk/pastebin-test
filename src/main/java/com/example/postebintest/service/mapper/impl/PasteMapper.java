@@ -1,33 +1,33 @@
 package com.example.postebintest.service.mapper.impl;
 
 import com.example.postebintest.data.Paste;
-import com.example.postebintest.dto.PasteDto;
-import com.example.postebintest.service.mapper.ObjectMapper;
+import com.example.postebintest.dto.PasteRequestDto;
+import com.example.postebintest.dto.PasteResponseDto;
+import com.example.postebintest.service.mapper.UnidirectionalObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class PasteMapper implements ObjectMapper<PasteDto, Paste> {
-  private final TimeMapper timeMapper;
+public class PasteMapper implements UnidirectionalObjectMapper<PasteRequestDto, Paste, PasteResponseDto> {
 
   @Override
-  public Paste mapForward(PasteDto pasteDto) {
+  public Paste toCentral(PasteRequestDto pasteRequestDto) {
     Paste paste = new Paste();
-    paste.setHashId(pasteDto.getHashId());
-    paste.setAccess(pasteDto.getAccess());
-    paste.setExpirationEndDateTime(timeMapper.mapForward(pasteDto.getExpirationTime()));
-    paste.setSeparatedText(pasteDto.getSeparatedText());
+    paste.setHashId(pasteRequestDto.getHashId());
+    paste.setAccess(pasteRequestDto.getAccess());
+    paste.setExpirationTime(pasteRequestDto.getExpirationTime());
+    paste.setSeparatedText(pasteRequestDto.getSeparatedText());
     return paste;
   }
 
   @Override
-  public PasteDto mapBackward(Paste paste) {
-    PasteDto dto = new PasteDto();
-    dto.setHashId(paste.getHashId());
-    dto.setAccess(paste.getAccess());
-    dto.setExpirationTime(timeMapper.mapBackward(paste.getExpirationEndDateTime()));
-    dto.setSeparatedText(paste.getSeparatedText());
-    return dto;
+  public PasteResponseDto fromCentral(Paste paste) {
+    PasteResponseDto pasteResponseDto = new PasteResponseDto();
+    pasteResponseDto.setHashId(paste.getHashId());
+    pasteResponseDto.setAccess(paste.getAccess());
+    pasteResponseDto.setExpirationOffsetDateTime(paste.getExpirationOffsetDateTime());
+    pasteResponseDto.setSeparatedText(paste.getSeparatedText());
+    return pasteResponseDto;
   }
 }
