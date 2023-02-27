@@ -1,7 +1,6 @@
 package com.example.postebintest.dto;
 
 import com.example.postebintest.data.Access;
-import com.example.postebintest.data.ExpirationTime;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ public class PasteResponseDto {
   private String separatedText;
 
   @NotBlank
-  private OffsetDateTime expirationTime;
+  private OffsetDateTime expirationOffsetDateTime;
 
   @NotBlank
   private Access access;
