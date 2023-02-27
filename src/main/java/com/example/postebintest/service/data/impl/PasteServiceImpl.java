@@ -21,22 +21,15 @@ public class PasteServiceImpl implements PasteService {
     this.pasteRepository = pasteRepository;
   }
 
+  @Override
   public Paste save(Paste paste) {
     return pasteRepository.save(paste);
   }
 
+  @Override
   public Paste getByHashId(String hashId) {
     Optional<Paste> optionalPaste = pasteRepository.getByHashId(hashId);
-    if (optionalPaste.isPresent()) {
-      Paste paste = optionalPaste.get();
-      if (paste.getExpirationEndDateTime().compareTo(OffsetDateTime.now()) > 0) {
-        throw new PasteException("Paste with id" + hashId + " not available");
-      } else {
-        return paste;
-      }
-    } else {
-      throw new PasteException("Paste with id" + hashId + " not found");
-    }
+    return optionalPaste.orElseThrow(() -> new PasteException("Paste with id" + hashId + " not found"));
   }
 
   @Override
