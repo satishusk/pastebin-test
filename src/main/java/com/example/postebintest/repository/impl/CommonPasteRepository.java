@@ -4,9 +4,6 @@ import com.example.postebintest.data.Paste;
 import com.example.postebintest.repository.PasteRepository;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +27,10 @@ public class CommonPasteRepository implements PasteRepository {
   public Optional<Paste> getByHashId(String hashId) {
     String queryString =
       "select p from Paste p " +
-      "where p.expirationEndDateTime > :now and p.hashId = :hashId";
+      "where p.timestampMinutes + p.expirationMinutes > :now and p.hashId = :hashId";
     return Optional.of(entityManager
       .createQuery(queryString, Paste.class)
-      .setParameter("now", OffsetDateTime.now())
+      .setParameter("now", OffsetDateTime.now().toInstant().getEpochSecond() / 60)
       .setParameter("hashId", hashId)
       .getSingleResult());
   }
@@ -42,10 +39,10 @@ public class CommonPasteRepository implements PasteRepository {
   public List<Paste> listActualPastes(int count) {
     String queryString =
       "select p from Paste p " +
-      "where p.access = 'PUBLIC' and p.expirationEndDateTime > :now " +
-      "order by p.timestamp desc";
+      "where p.access = 'PUBLIC' and  p.timestampMinutes + p.expirationMinutes > :now " +
+      "order by p.timestampMinutes desc";
     return entityManager.createQuery(queryString, Paste.class)
-      .setParameter("now", OffsetDateTime.now())
+      .setParameter("now", OffsetDateTime.now().toInstant().getEpochSecond() / 60)
       .setMaxResults(count)
       .getResultList();
   }
