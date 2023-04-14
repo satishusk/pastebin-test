@@ -1,0 +1,28 @@
+version: '3.5'
+
+volumes:
+  database:
+
+services:
+  pastebin-service:
+    container_name: pastebin
+    restart: always
+    build: pastebin-service/
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    restart: always
+    image: postgres:15.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - database:/var/lib/postgresql/data

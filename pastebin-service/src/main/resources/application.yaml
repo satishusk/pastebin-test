@@ -1,0 +1,31 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/pastebin_db
+    username: postgres
+    password: postgres
+
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 3000MB
+
+  test:
+    database:
+      replace: none
+  sql:
+    init:
+      platform: postgres
+
+server:
+  port: 80
