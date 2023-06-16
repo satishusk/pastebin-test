@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -16,7 +15,7 @@ import java.time.ZoneOffset;
 public class Paste {
   @Id
   @GenericGenerator(name = "hash_generator",
-    strategy = "com.kazhukov.postebin.service.generator.identifier.HashGenerator")
+    strategy = "com.kazhukov.pastebin.service.generator.identifier.HashGenerator")
   @GeneratedValue(generator = "hash_generator")
   @Column(name = "id")
   private String hashId;
